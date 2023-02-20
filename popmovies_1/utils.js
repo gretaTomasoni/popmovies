@@ -2,6 +2,19 @@ const qS = (type) => document.querySelector(type);
 const qSA = (type) => document.querySelectorAll(type);
 const cE = (element) => document.createElement(element);
 
+const numbers = [
+  "./img/1.png",
+  "./img/2.png",
+  "./img/3.png",
+  "./img/4.png",
+  "./img/5.png",
+  "./img/6.png",
+  "./img/7.png",
+  "./img/8.png",
+  "./img/9.png",
+  "./img/10.png",
+];
+
 const mainMovieCard = (data) => {
   const mainCardEl = cE("div");
   const mainImgEl = cE("img");
@@ -122,4 +135,4 @@ const movieCardGen = (data) => {
   return cardEl;
 };
 
-export { qS, qSA, cE, mainMovieCard, topRatedCardGen, movieCardGen };
+export { qS, qSA, cE, numbers, mainMovieCard, topRatedCardGen, movieCardGen };

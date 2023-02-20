@@ -205,7 +205,7 @@ body {
 .horror {
   display: flex;
   gap: 15px;
-  overflow-x: auto;
+  overflow-x: scroll;
 }
 
 .title_section {
@@ -258,6 +258,30 @@ body {
 
 .number_card {
   height: 50px;
+}
+
+.container {
+  position: relative;
+}
+
+.scroll-left-btn,
+.scroll-right-btn {
+  position: absolute;
+  top: 60%;
+  transform: translateY(-50%);
+  font-size: 24px;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  color: white;
+}
+
+.scroll-left-btn {
+  left: 10px;
+}
+
+.scroll-right-btn {
+  right: 10px;
 }
 
 /* stars */
