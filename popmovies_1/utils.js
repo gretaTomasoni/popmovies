@@ -69,9 +69,6 @@ const mainMovieCard = (data) => {
 const topRatedCardGen = (data) => {
   const cardEl = cE("div");
   const imgEl = cE("img");
-  // const voteAverageEl = cE("span");
-  // const titleEl = cE("h4");
-  // const runtimeEl = cE("p");
 
   cardEl.setAttribute("id", data.id);
   cardEl.className = "movie_card";
@@ -89,18 +86,19 @@ const topRatedCardGen = (data) => {
   }
   imgEl.setAttribute("alt", data.title);
 
-  // voteAverageEl.className = "vote_card";
-  // voteAverageEl.textContent = data.vote_average;
-
-  // titleEl.className = "title_card";
-  // titleEl.textContent = data.title;
-
-  // //! perchè non funziona?
-  // runtimeEl.className = "runtime_card";
-  // runtimeEl.textContent = data.runtime;
-
   cardEl.append(imgEl);
   return cardEl;
+};
+
+const numberFuntion = () => {
+  const topRatedEl = qS(".top_rated");
+  const bests = topRatedEl.querySelectorAll(".movie_card");
+  bests.forEach((item, index) => {
+    const numberEl = cE("img");
+    numberEl.src = numbers[index];
+    numberEl.className = "number_card";
+    item.insertBefore(numberEl, item.children[0]);
+  });
 };
 
 const movieCardGen = (data) => {
@@ -135,4 +133,47 @@ const movieCardGen = (data) => {
   return cardEl;
 };
 
-export { qS, qSA, cE, numbers, mainMovieCard, topRatedCardGen, movieCardGen };
+const scrollFunction = (container, bigContainer) => {
+  const mostViewedBack = bigContainer.querySelector(".backward-btn");
+  const mostViewedForw = bigContainer.querySelector(".forward-btn");
+
+  let mostViewedScroll = 0;
+
+  mostViewedForw.addEventListener("click", () => {
+    mostViewedScroll += 1100;
+    container.scroll({
+      top: 0,
+      left: mostViewedScroll,
+      behavior: "smooth",
+    });
+    if (mostViewedScroll > 0) {
+      mostViewedBack.classList.remove("disaled");
+    }
+  });
+
+  mostViewedBack.addEventListener("click", () => {
+    if (mostViewedScroll > 0) {
+      mostViewedScroll -= 1100;
+    }
+    container.scroll({
+      top: 0,
+      left: mostViewedScroll,
+      behavior: "smooth",
+    });
+    if (mostViewedScroll === 0) {
+      mostViewedBack.classList.add("disaled");
+    }
+  });
+};
+
+export {
+  qS,
+  qSA,
+  cE,
+  numbers,
+  mainMovieCard,
+  topRatedCardGen,
+  numberFuntion,
+  movieCardGen,
+  scrollFunction,
+};

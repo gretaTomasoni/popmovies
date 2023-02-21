@@ -260,28 +260,46 @@ body {
   height: 50px;
 }
 
-.container {
+.container,
+.row {
   position: relative;
 }
 
-.scroll-left-btn,
-.scroll-right-btn {
+.container .row .forward-btn,
+.container .row .backward-btn {
   position: absolute;
-  top: 60%;
-  transform: translateY(-50%);
-  font-size: 24px;
-  cursor: pointer;
-  border: none;
-  background-color: transparent;
+  bottom: 0;
+  width: 4%;
+  height: 78%;
+  background-color: rgba(0, 0, 0, 0.5);
   color: white;
+  z-index: 2;
+  transition: all 0.35s ease;
+  opacity: 0;
+  cursor: pointer;
 }
 
-.scroll-left-btn {
-  left: 10px;
+.container .row:hover .forward-btn,
+.container .row:hover .backward-btn {
+  opacity: 1;
 }
 
-.scroll-right-btn {
-  right: 10px;
+.container .row .backward-btn {
+  background-size: contain;
+  background-position-y: center;
+  background-repeat: no-repeat;
+  left: 0;
+}
+
+.container .row .forward-btn {
+  background-size: contain;
+  background-position-y: center;
+  background-repeat: no-repeat;
+  right: 0;
+}
+
+.disaled {
+  opacity: 0;
 }
 
 /* stars */

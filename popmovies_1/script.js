@@ -6,13 +6,17 @@ import {
   numbers,
   mainMovieCard,
   topRatedCardGen,
+  numberFuntion,
   movieCardGen,
+  scrollFunction,
 } from "./utils.js";
 
 const mainFilmEl = qS(".main_film");
 const topRatedEl = qS(".top_rated");
+const topRatedContainer = qS(".top_rated_container");
 const comedyEl = qS(".comedy");
 const thrillerEl = qS(".thriller");
+const thrillerContainer = qS(".thriller_container");
 const horrorEl = qS(".horror");
 
 //* scroll sticky header
@@ -54,29 +58,8 @@ Promise.all([
     });
   })
   .then(() => {
-    const bests = topRatedEl.querySelectorAll(".movie_card");
-    bests.forEach((item, index) => {
-      const numberEl = cE("img");
-      numberEl.src = numbers[index];
-      numberEl.className = "number_card";
-      item.insertBefore(numberEl, item.children[0]);
-    });
-
-    document.addEventListener("DOMContentLoaded", function () {
-      // Imposta la larghezza del contenitore delle card
-      let container = qS(".top_rated");
-
-      // Aggiungi l'evento click per lo scroll a sinistra
-      let scrollLeftBtn = qS(".scroll-left-btn");
-      scrollLeftBtn.addEventListener("click", function () {
-        container.scrollRight += 600;
-      });
-
-      // Aggiungi l'evento click per lo scroll a destra
-      let scrollRightBtn = qS(".scroll-right-btn");
-      scrollRightBtn.addEventListener("click", function () {
-        container.scrollLeft += 600;
-      });
-    });
+    numberFuntion();
+    scrollFunction(topRatedEl, topRatedContainer);
+    scrollFunction(thrillerEl, thrillerContainer);
   })
   .catch((error) => console.error(error));
