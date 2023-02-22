@@ -39,6 +39,7 @@ const youtubeSearch = (movieTitle, container) => {
 
 const getModal = () => {
   const movieEls = qSA(".movie_card");
+
   movieEls.forEach((movie) =>
     movie.addEventListener("click", () =>
       GET("movie", movie.id).then((selectedMovie) => {
@@ -48,6 +49,19 @@ const getModal = () => {
         modalEl.style.zIndex = "10";
       })
     )
+  );
+};
+
+const getModalButton = () => {
+  const buttonDetails = qS(".button_detail_main");
+  const mainMovieEl = qS(".main_movie_card");
+  buttonDetails.addEventListener("click", () =>
+    GET("movie", mainMovieEl.id).then((selectedMovie) => {
+      scrollToTop();
+      modalEl.appendChild(modalGen(selectedMovie));
+      modalEl.style.display = "flex";
+      modalEl.style.zIndex = "10";
+    })
   );
 };
 
@@ -121,4 +135,4 @@ const overlayFunction = () => {
   });
 };
 
-export { getModal, modalGen, overlayFunction };
+export { getModal, modalGen, getModalButton, overlayFunction };

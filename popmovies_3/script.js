@@ -10,7 +10,13 @@ import {
   movieCardGen,
   scrollFunction,
 } from "./utils.js";
-import { getModal, modalGen, overlayFunction } from "./modal.js";
+import {
+  getModal,
+  modalGen,
+  getModalButton,
+  overlayFunction,
+} from "./modal.js";
+import { searchFunction } from "./search.js";
 
 const mainFilmEl = qS(".main_film");
 const topRatedEl = qS(".top_rated");
@@ -67,6 +73,8 @@ Promise.all([
     scrollFunction(thrillerEl, thrillerContainer);
     scrollFunction(horrorEl, horrorContainer);
     getModal();
+    getModalButton();
+    searchFunction();
   })
   .catch((error) => console.error(error));
 

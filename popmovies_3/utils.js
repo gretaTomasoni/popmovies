@@ -56,6 +56,7 @@ const mainMovieCard = (data) => {
 
   buttonMainEl.className = "button_main_card";
   buttonWatch.textContent = "Watch now";
+  buttonDetails.className = "button_detail_main";
   buttonDetails.textContent = "Details";
 
   overviewEl.textContent = data.overview;
@@ -138,6 +139,9 @@ const scrollFunction = (container, bigContainer) => {
   const mostViewedForw = cE("button");
   mostViewedBack.className = "backward-btn";
   mostViewedForw.className = "forward-btn";
+
+  mostViewedBack.textContent = "<";
+  mostViewedForw.textContent = ">";
 
   let mostViewedScroll = 0;
   mostViewedBack.classList.add("disabled");
