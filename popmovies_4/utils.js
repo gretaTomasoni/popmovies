@@ -139,6 +139,7 @@ const scrollFunction = (container, bigContainer) => {
   var movieCardArr = Array.from(movieCard);
   console.log(movieCardArr.length);
   if (movieCardArr.length >= 5) {
+    // if (container.offsetWidth <= container.scrollWidth) {
     const mostViewedBack = cE("button");
     const mostViewedForw = cE("button");
     mostViewedBack.className = "backward-btn";
@@ -149,7 +150,6 @@ const scrollFunction = (container, bigContainer) => {
 
     let mostViewedScroll = 0;
     mostViewedBack.classList.add("disabled");
-    // mostViewedBack.style.display = "none";
 
     mostViewedForw.addEventListener("click", () => {
       mostViewedScroll += 1200;
@@ -161,7 +161,8 @@ const scrollFunction = (container, bigContainer) => {
       if (mostViewedScroll > 0) {
         mostViewedBack.classList.remove("disabled");
       }
-      if (mostViewedScroll >= 900) mostViewedForw.classList.add("disabled");
+      if (container.scrollLeft + container.offsetWidth >= container.scrollWidth)
+        mostViewedForw.classList.add("disabled");
     });
 
     mostViewedBack.addEventListener("click", () => {

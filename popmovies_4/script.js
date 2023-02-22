@@ -23,10 +23,19 @@ const thrillerEl = qS(".thriller");
 const thrillerContainer = qS(".movie_container_thriller");
 const horrorContainer = qS(".movie_container_horror");
 const horrorEl = qS(".horror");
+const popularContainer = qS(".movie_container_popular");
+const popularEl = qS(".popular");
 
 changePage();
 stickyHeader();
 overlayFunction();
+// footerCreate();
+
+function getRandomItem(arr) {
+  const randomIndex = Math.floor(Math.random() * arr.length);
+  const item = arr[randomIndex];
+  return item;
+}
 
 Promise.all([
   GET("movie", "popular"),
@@ -34,9 +43,9 @@ Promise.all([
   GET("movie", "popular"),
 ])
   .then((data) => {
-    data[0].results
-      .slice(0, 1)
-      .map((movie, index) => mainFilmEl.appendChild(mainMovieCard(movie)));
+    let item =
+      data[0].results[Math.floor(Math.random() * data[0].results.length)];
+    mainFilmEl.appendChild(mainMovieCard(item));
     data[1].results
       .slice(0, 10)
       .map((movie) => topRatedEl.append(topRatedCardGen(movie)));
@@ -44,6 +53,7 @@ Promise.all([
       if (movie.genre_ids.includes(35)) comedyEl.append(movieCardGen(movie));
       if (movie.genre_ids.includes(53)) thrillerEl.append(movieCardGen(movie));
       if (movie.genre_ids.includes(27)) horrorEl.append(movieCardGen(movie));
+      popularEl.append(movieCardGen(movie));
     });
   })
   .then(() => {
@@ -52,6 +62,7 @@ Promise.all([
     scrollFunction(comedyEl, comedyContainer);
     scrollFunction(thrillerEl, thrillerContainer);
     scrollFunction(horrorEl, horrorContainer);
+    scrollFunction(popularEl, popularContainer);
     getModal();
     getModalButton();
     searchFunction();

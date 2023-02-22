@@ -92,10 +92,6 @@ const modalGen = (data) => {
     .map((item) => item.name)
     .join('<span class="separator"> • </span>');
 
-  // for (let i = 0; i < data.genres.length; i++) {
-  //   genresEl.textContent = data.genres[i].name;
-  // }
-
   overviewEl.textContent = data.overview;
   releaseDateEl.textContent = data.release_date;
 

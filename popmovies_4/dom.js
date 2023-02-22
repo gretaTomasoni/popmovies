@@ -34,6 +34,7 @@ const changePage = () => {
     menuTopRated.classList.add("active");
     menuHome.classList.remove("active");
     const mainSecondPage = cE("div");
+    mainSecondPage.className = "main_second";
 
     GET("movie", "top_rated")
       .then((data) => {
@@ -43,7 +44,6 @@ const changePage = () => {
       })
       .then(() => {
         getModal();
-        getModalButton();
         searchFunction();
       })
       .catch((error) => console.error(error));
@@ -51,6 +51,7 @@ const changePage = () => {
   });
   menuHome.addEventListener("click", () => {
     location.reload(true);
+    window.scrollTo(0, 0);
   });
 };
 
