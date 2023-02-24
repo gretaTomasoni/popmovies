@@ -56,6 +56,13 @@ const mainMovieCard = (data) => {
 
   buttonMainEl.className = "button_main_card";
   buttonWatch.textContent = "Watch now";
+  buttonWatch.addEventListener("click", () => {
+    playFunction();
+    const modalMovieEl = qS(".movie-modal");
+    const modalEl = qS(".modal");
+    modalEl.style.display = "none";
+    modalMovieEl.remove();
+  });
   buttonDetails.className = "button_detail_main";
   buttonDetails.textContent = "Details";
 
@@ -149,11 +156,15 @@ const scrollFunction = (container, bigContainer) => {
   if (movieCardArr.length >= 5) {
     const mostViewedBack = cE("button");
     const mostViewedForw = cE("button");
+    const mostViewedBackDiv = cE("div");
+    const mostViewedForwDiv = cE("div");
     mostViewedBack.className = "backward-btn";
     mostViewedForw.className = "forward-btn";
+    mostViewedBackDiv.className = "backward-div";
+    mostViewedForwDiv.className = "forward-div";
 
-    mostViewedBack.textContent = "<";
-    mostViewedForw.textContent = ">";
+    mostViewedBackDiv.textContent = "<";
+    mostViewedForwDiv.textContent = ">";
 
     let mostViewedScroll = 0;
     mostViewedBack.classList.add("disabled");
@@ -188,9 +199,47 @@ const scrollFunction = (container, bigContainer) => {
       if (mostViewedScroll <= container.scrollWidth - container.offsetWidth)
         mostViewedForw.classList.remove("disabled");
     });
-
+    mostViewedBack.append(mostViewedBackDiv);
+    mostViewedForw.append(mostViewedForwDiv);
     bigContainer.append(mostViewedBack, mostViewedForw);
   }
+};
+
+const playFunction = (modalEl) => {
+  const playModal = document.createElement("div");
+  playModal.innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/LW2x7w3DkzA?autoplay=1&showinfo=0&controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+  playModal.className = "full-movie-modal";
+
+  const movieOverlay = document.createElement("div");
+  movieOverlay.className = "full-movie-overlay";
+
+  const movieOverlayBottom = document.createElement("div");
+  movieOverlayBottom.className = "full-movie-overlay-bottom";
+
+  const closeBtn = document.createElement("button");
+  closeBtn.className = "close_button";
+  closeBtn.textContent = "X";
+  movieOverlay.appendChild(closeBtn);
+
+  closeBtn.addEventListener("click", () => {
+    playModal.innerHTML = "";
+    playModal.classList.remove("show");
+    const modalMovieEl = qS(".movie-modal");
+    const modalEl = qS(".modal");
+    playModal.remove();
+    modalEl.remove();
+    modalMovieEl.remove();
+  });
+
+  playModal.appendChild(movieOverlay);
+  playModal.appendChild(movieOverlayBottom);
+  document.body.appendChild(playModal);
+  playModal.classList.add("show");
+
+  setTimeout(() => {
+    playModal.innerHTML = "";
+    playModal.classList.remove("show");
+  }, 25000);
 };
 
 export {
@@ -203,4 +252,5 @@ export {
   numberFuntion,
   movieCardGen,
   scrollFunction,
+  playFunction,
 };

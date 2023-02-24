@@ -1,9 +1,16 @@
-import { qS, qSA, cE, topRatedCardGen, movieCardGen } from "./utils.js";
+import {
+  qS,
+  qSA,
+  cE,
+  topRatedCardGen,
+  movieCardGen,
+  playFunction,
+} from "./utils.js";
 import { GET } from "./api.js";
 
 const modalOverlay = qS(".overlay");
 const modalEl = qS(".modal");
-// const API_KEY = "AIzaSyCprJ_YMJ9tl7_JiQV8FD1vtngxGPpckvk";
+const API_KEY = "AIzaSyCprJ_YMJ9tl7_JiQV8FD1vtngxGPpckvk";
 let rating = 0;
 
 function scrollToTop() {
@@ -25,15 +32,15 @@ const youtubeSearch = (movieTitle, container) => {
   )
     .then((response) => {
       if (response.status === 403) {
-        const youtubeIFrame = `<iframe width="100%" height="100%" src="https://www.youtube.com/watch?v=qEVUtrk8_B4" alt="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope;" allowfullscreen></iframe>`;
-        container.innerHTML = youtubeIFrame;
+        const youtubeFrame = `<iframe width="100%" height="100%" src="https://www.youtube.com/watch?v=qEVUtrk8_B4" alt="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope;" allowfullscreen></iframe>`;
+        container.innerHTML = youtubeFrame;
       } else {
         return response.json();
       }
     })
     .then((data) => {
-      const youtubeIFrame = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${data.items[0].id.videoId}?autoplay=1&showinfo=0&controls=0" alt="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope;" allowfullscreen></iframe>`;
-      container.innerHTML = youtubeIFrame;
+      const youtubeFrame = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${data.items[0].id.videoId}?autoplay=1&showinfo=0&controls=0" alt="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope;" allowfullscreen></iframe>`;
+      container.innerHTML = youtubeFrame;
     });
 };
 
@@ -46,7 +53,7 @@ const getModal = () => {
         scrollToTop();
         modalEl.appendChild(modalGen(selectedMovie));
         modalEl.style.display = "flex";
-        modalEl.style.zIndex = "10";
+        modalEl.style.zIndex = "1000";
       })
     )
   );
@@ -81,6 +88,7 @@ const modalGen = (data) => {
   const similarContainer = cE("div");
   const similarMovies = cE("div");
   const titleSimilarEl = cE("p");
+  const youtubeFrame = qS(".youtubeFrame");
 
   modalMovieEl.className = "movie-modal";
   modalContainerVideo.className = "movie-container-video";
@@ -89,12 +97,21 @@ const modalGen = (data) => {
   wrapperTextEl.className = "wrapper_text_el";
   overlay.className = "overlay_modal";
   similarMovies.className = "similarMovies";
+  titleSimilarEl.className = "titleSimilarEl";
   titleSimilarEl.textContent = "Not so popular but similar:";
   titleSimilarEl.style.margin = "0px 0px 20px 50px";
   titleSimilarEl.style.color = "#9aa8cd";
 
   titleEl.textContent = data.title;
   buttonPlay.textContent = "Watch now";
+  buttonPlay.addEventListener("click", () => {
+    playFunction();
+    const modalMovieEl = qS(".movie-modal");
+
+    modalEl.style.display = "none";
+    modalMovieEl.remove();
+  });
+
   genresEl.innerHTML = `<span class="separator"> Genres: </span> ${data.genres
     .map((item) => item.name)
     .join('<span class="separator"> • </span>')}`;
@@ -153,5 +170,41 @@ const overlayFunction = () => {
     modalMovieEl.remove();
   });
 };
+
+// const playFunction = (modalEl) => {
+//   const playModal = document.createElement("div");
+//   playModal.innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/LW2x7w3DkzA?autoplay=1&showinfo=0&controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+//   playModal.className = "full-movie-modal";
+
+//   const movieOverlay = document.createElement("div");
+//   movieOverlay.className = "full-movie-overlay";
+
+//   const movieOverlayBottom = document.createElement("div");
+//   movieOverlayBottom.className = "full-movie-overlay-bottom";
+
+//   const closeBtn = document.createElement("button");
+//   closeBtn.className = "close_button";
+//   closeBtn.textContent = "X";
+//   movieOverlay.appendChild(closeBtn);
+
+//   closeBtn.addEventListener("click", () => {
+//     playModal.innerHTML = "";
+//     playModal.classList.remove("show");
+//     const modalMovieEl = qS(".movie-modal");
+
+//     modalEl.style.display = "none";
+//     modalMovieEl.remove();
+//   });
+
+//   playModal.appendChild(movieOverlay);
+//   playModal.appendChild(movieOverlayBottom);
+//   document.body.appendChild(playModal);
+//   playModal.classList.add("show");
+
+//   setTimeout(() => {
+//     playModal.innerHTML = "";
+//     playModal.classList.remove("show");
+//   }, 25000);
+// };
 
 export { getModal, modalGen, getModalButton, overlayFunction };
